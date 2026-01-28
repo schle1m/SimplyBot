@@ -1,7 +1,7 @@
 //dependencys
 require("dotenv").config();
 //config
-const prefix = ";"
+const prefix = ";" //change the ; to any other prefix you want.
 //what to import from Discord.js
 const { Client, GatewayIntentBits } = require("discord.js");
 //wich intents were going to use.
@@ -16,12 +16,15 @@ const client = new Client({
 //when the Bot is ready
 client.on("ready", () => {
     console.log("Bot is Ready"); //log That we are online
-    require("./deploy.js"); //run a Deploy Script for Slash Commands.
 });
 //when a Message is send
 client.on("messageCreate", (message) => {
     if (message.author.bot) return; //this ignores Bots
-    //check for a specific message
+    //check for a specific message Most simple logic
+    if (message.content === `!ping`) { // only trigger if !ping gets send
+       return message.reply("Pong! Bot is online"); //reply
+    }
+    //check for message with the chossen prefix
     if (message.content === `${prefix}ping`) {
        return message.reply("Pong! Bot is online"); //reply
     }
