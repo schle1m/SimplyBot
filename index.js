@@ -3,7 +3,7 @@ require("dotenv").config();
 //config
 const prefix = ";" //change the ; to any other prefix you want.
 //what to import from Discord.js
-const { Client, GatewayIntentBits } = require("discord.js");
+const { Client, GatewayIntentBits, Guild } = require("discord.js");
 //wich intents were going to use.
 const client = new Client({
     intents: [
@@ -17,10 +17,23 @@ const client = new Client({
 client.on("ready", () => {
     console.log("Bot is Ready"); //log That we are online
 });
+//when bot is added
+client.on("guildCreate", (guild) => {
+    const name = guild.name;
+        let channel = newguild.systemChannel;
+    if (!channel) {
+        channel = newguild.channels.cache.find(ch =>
+            ch.isTextBased() &&
+            ch.permissionsFor(newguild.members.me).has(["ViewChannel", "SendMessages"])
+        );
+    }
+    if (channel) {
+        channel.send(`# Thanks for Adding Simply Bot to ${name}\nPrefix is ${prefix}\nThis Bot is being Developed by schle1m & navyman514`)
+    }
+});
 //when a Message is send
 client.on("messageCreate", (message) => {
     if (message.author.bot) return; //this ignores Bots
-
     //logic for very basic Commands
     //check for a specific message Most simple logic
     if (message.content === `!ping`) { // only trigger if !ping gets send
